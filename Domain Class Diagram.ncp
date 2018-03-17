@@ -1,0 +1,231 @@
+<Project>
+  <Name>Untitled</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>CashMachine.Domain.dll</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Interface">
+        <Name>IMoneyStack</Name>
+        <Access>Public</Access>
+        <Location left="40" top="40" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">Int32 PenceValue { get; set; }</Member>
+        <Member type="Property">Int32 Quantity { get; set; }</Member>
+        <Member type="Property">Int32 Balance { get; }</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>AtmTerminal</Name>
+        <Access>Public</Access>
+        <Location left="634" top="53" />
+        <Size width="271" height="157" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private CashDispenser _cashDispenser</Member>
+        <Member type="Property">public Decimal Balance { get; }</Member>
+        <Member type="Constructor">public AtmTerminal(CashDispenser cashDispenser)</Member>
+        <Member type="Method">public IList&lt;MoneyStack&gt; Withdraw(Decimal amount)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>CashDispenser</Name>
+        <Access>Public</Access>
+        <Location left="494" top="321" />
+        <Size width="552" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">protected List&lt;MoneyStack&gt; Vault { get; set; }</Member>
+        <Member type="Property">public Int32 Balance { get; }</Member>
+        <Member type="Constructor">protected CashDispenser(IList&lt;MoneyStack&gt; money)</Member>
+        <Member type="Method">public Int32 CalculateBalance(IList&lt;MoneyStack&gt; moneyStacks)</Member>
+        <Member type="Method">public IList&lt;MoneyStack&gt; CalulateDispenseMoneyStacks(Int32 highestDenomidationInPense, Decimal amount)</Member>
+        <Member type="Method">public abstract IList&lt;MoneyStack&gt; Dispense(Decimal amount)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PrimaryCashDispenser</Name>
+        <Access>Public</Access>
+        <Location left="459" top="576" />
+        <Size width="285" height="143" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public PrimaryCashDispenser(IList&lt;MoneyStack&gt; money)</Member>
+        <Member type="Method">public override IList&lt;MoneyStack&gt; Dispense(Decimal amount)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>SecondaryCashDispenser</Name>
+        <Access>Public</Access>
+        <Location left="787" top="576" />
+        <Size width="285" height="149" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public SecondaryCashDispenser(IList&lt;MoneyStack&gt; money)</Member>
+        <Member type="Method">public override IList&lt;MoneyStack&gt; Dispense(Decimal amount)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>MoneyStack</Name>
+        <Access>Public</Access>
+        <Location left="40" top="333" />
+        <Size width="183" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public Int32 PenceValue { get; set; }</Member>
+        <Member type="Property">public Int32 Quantity { get; set; }</Member>
+        <Member type="Property">public Int32 Balance { get; }</Member>
+        <Member type="Constructor">public MoneyStack()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Generalization" first="3" second="2">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="4" second="2">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="5" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="1" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartRole>_cashDispenser</StartRole>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>CashMachine.Domain.dll</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Interface">
+        <Name>IMoneyStack</Name>
+        <Access>Public</Access>
+        <Location left="50" top="64" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">Int32 BaseValue { get; set; }</Member>
+        <Member type="Property">Int32 Quantity { get; set; }</Member>
+        <Member type="Property">Int32 Total { get; }</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>VaultA</Name>
+        <Access>Public</Access>
+        <Location left="298" top="480" />
+        <Size width="281" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public VaultA(IEnumerable&lt;IMoneyStack&gt; money)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AtmTerminal</Name>
+        <Access>Public</Access>
+        <Location left="631" top="25" />
+        <Size width="275" height="167" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private CashDispenser cashDispenser</Member>
+        <Member type="Property">public Decimal Balance { get; }</Member>
+        <Member type="Constructor">public AtmTerminal(CashDispenser cashDispenser)</Member>
+        <Member type="Method">public IList&lt;IMoneyStack&gt; Withdraw(Decimal amount)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>MoneyStack</Name>
+        <Access>Public</Access>
+        <Location left="50" top="324" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public Int32 BaseValue { get; set; }</Member>
+        <Member type="Property">public Int32 Quantity { get; set; }</Member>
+        <Member type="Property">public Int32 Total { get; }</Member>
+        <Member type="Constructor">public MoneyStack()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>PrimaryCashDispenser</Name>
+        <Access>Public</Access>
+        <Location left="631" top="512" />
+        <Size width="273" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public PrimaryCashDispenser(MoneyVault vault)</Member>
+        <Member type="Method">public override IList&lt;IMoneyStack&gt; Dispense(Decimal amount)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>SecondaryCashDispenser</Name>
+        <Access>Public</Access>
+        <Location left="925" top="512" />
+        <Size width="273" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public SecondaryCashDispenser(MoneyVault vault)</Member>
+        <Member type="Method">public override IList&lt;IMoneyStack&gt; Dispense(Decimal amount)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>MoneyVault</Name>
+        <Access>Public</Access>
+        <Location left="356" top="172" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public IEnumerable&lt;IMoneyStack&gt; MoneyStacks { get; set; }</Member>
+        <Member type="Property">public Int32 Balance { get; }</Member>
+        <Member type="Constructor">public MoneyVault(IEnumerable&lt;IMoneyStack&gt; money)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>CashDispenser</Name>
+        <Access>Public</Access>
+        <Location left="631" top="261" />
+        <Size width="570" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public MoneyVault Vault</Member>
+        <Member type="Constructor">protected CashDispenser(MoneyVault vault)</Member>
+        <Member type="Method">public IList&lt;IMoneyStack&gt; CalulateDispenseMoneyStacks(Int32 highestDenominationInBaseUnit, Decimal amount)</Member>
+        <Member type="Method">public abstract IList&lt;IMoneyStack&gt; Dispense(Decimal amount)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Generalization" first="1" second="6">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="4" second="7">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="5" second="7">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="3" second="0">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="2" second="7">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartRole>cashDispenser</StartRole>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="7" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+        <StartRole>Vault</StartRole>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
