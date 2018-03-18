@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace CashMachine.Domain
 {
     /// <summary>
-    /// Dispenses least pieces of money possible
+    /// A cash dispenser that dispenses the fewest pieces of money possible.
     /// </summary>
     public class PrimaryCashDispenser : CashDispenser
     {
@@ -13,6 +13,11 @@ namespace CashMachine.Domain
         {
         }
 
+        /// <summary>
+        /// Dispenses money from the vault.
+        /// </summary>
+        /// <param name="amount">The amount that the dispenser should dispense</param>
+        /// <returns>A collection with the fewest pieces of money possible.</returns>
         public override IEnumerable<MoneyStack> Dispense(decimal amount)
         {
             int withdrawalAmount = (int)(amount * 100);
@@ -24,7 +29,7 @@ namespace CashMachine.Domain
 
             int seedDenomiation = 5000;
 
-            return CalulateDispenseMoneyStacks(seedDenomiation, withdrawalAmount);
+            return CountMoneyStacksToDispense(seedDenomiation, withdrawalAmount);
         }
     }
 }

@@ -1,14 +1,11 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CashMachine.Domain.Abstractions
 {
+    /// <summary>
+    /// An ATM cash dispenser that will take money from the vault to be dispensed.
+    /// </summary>
     public abstract class CashDispenser
     {
         public AtmVault Vault;
@@ -24,10 +21,10 @@ namespace CashMachine.Domain.Abstractions
         /// <param name="highestDenominationInBaseUnit">The largest currency denomination value to include eg. 2000 ie £20</param>
         /// <param name="amountToDispense">The amount to dispense expressed in the currencies fractional unit.</param>
         /// <returns></returns>
-        public IEnumerable<MoneyStack> CalulateDispenseMoneyStacks(int highestDenominationInBaseUnit, int amountToDispense )
+        public virtual IEnumerable<MoneyStack> CountMoneyStacksToDispense(int highestDenominationInBaseUnit, int amountToDispense)
         {
             var cashCollection = new List<MoneyStack>();
-            
+
             if (amountToDispense < highestDenominationInBaseUnit)
                 highestDenominationInBaseUnit = amountToDispense;
 
@@ -38,12 +35,11 @@ namespace CashMachine.Domain.Abstractions
                 int quantity = amountToDispense / money.BaseValue;
 
                 quantity = money.Quantity > quantity ? quantity : money.Quantity;
-                
+
                 if (quantity == 0)
                     continue;
 
                 int remainder = amountToDispense % (money.BaseValue * quantity);
-
 
                 MoneyStack cash = Vault.Take(money, quantity);
                 cashCollection.Add(cash);
@@ -58,6 +54,5 @@ namespace CashMachine.Domain.Abstractions
         }
 
         public abstract IEnumerable<MoneyStack> Dispense(decimal amount);
-
     }
 }

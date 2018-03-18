@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace CashMachine.Domain
 {
+    /// <summary>
+    /// A Cash Machine
+    /// </summary>
     public class AtmTerminal
     {
         private CashDispenser cashDispenser;

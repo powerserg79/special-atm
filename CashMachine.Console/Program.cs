@@ -1,15 +1,15 @@
-﻿using System;
+﻿using CashMachine.Domain;
+using CashMachine.Domain.Abstractions;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Configuration;
 using System.Text;
-using System.Threading.Tasks;
-using CashMachine.Domain;
 
 namespace CashMachine.Console
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             string line = null;
 
@@ -31,25 +31,42 @@ namespace CashMachine.Console
             atmMoneyStacks.Add(new EnglishMoneyStack() { BaseValue = 50, Quantity = 100 });
 
             var moneyVault = new EnglishAtmVault(atmMoneyStacks);
+            CashDispenser cashDispenser;
 
+            string algorithm = ConfigurationManager.AppSettings["DispensingAlgorithm"];
 
-            //var cashDispenser = new PrimaryCashDispenser(moneyVault);
-            var cashDispenser = new SecondaryCashDispenser(moneyVault);
+            // choose which algorithm to use based on a setting in the app.config
+            if (algorithm == "1")
+            {
+                cashDispenser = new PrimaryCashDispenser(moneyVault);
+            }
+            else
+            {
+                cashDispenser = new SecondaryCashDispenser(moneyVault);
+            }
 
             var atmTerminal = new AtmTerminal(cashDispenser);
 
             System.Console.WriteLine($"ATM balance is {atmTerminal.Balance.ToString("C")}");
-            System.Console.WriteLine("Enter a decimal value to withdraw");
+            System.Console.WriteLine("Enter an amount to withdraw");
 
             while ((line = System.Console.ReadLine()) != "exit")
             {
+
+                decimal valueToWithdraw;
+                if (string.IsNullOrEmpty(line) || !decimal.TryParse(line, out valueToWithdraw))
+                {
+                    System.Console.WriteLine("Enter another amount to withdraw or type 'exit' to close the program");
+                    continue;
+                }
+
                 decimal withdrawalAmount = decimal.Parse(line);
                 var moneyStackText = new StringBuilder();
 
                 try
                 {
                     var result = atmTerminal.Withdraw(withdrawalAmount);
-                    
+
                     foreach (var MoneyStack in result)
                     {
                         decimal poundFormat = (decimal)MoneyStack.BaseValue / 100;
@@ -61,19 +78,17 @@ namespace CashMachine.Console
                 }
                 catch (Exception e)
                 {
-                    moneyStackText =  new StringBuilder();
+                    moneyStackText = new StringBuilder();
                     moneyStackText.Append(e.Message);
                 }
-           
 
                 System.Console.BackgroundColor = ConsoleColor.Blue;
                 System.Console.ForegroundColor = ConsoleColor.White;
                 System.Console.WriteLine(moneyStackText.ToString().TrimEnd(','));
                 System.Console.ResetColor();
                 System.Console.WriteLine($"ATM balance is {atmTerminal.Balance.ToString("C")}");
-                System.Console.WriteLine("Enter a decimal value to withdraw or type exit");
+                System.Console.WriteLine("Enter another amount to withdraw or type 'exit' to close the program");
             }
-            
         }
     }
 }

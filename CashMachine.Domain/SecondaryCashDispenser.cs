@@ -5,7 +5,7 @@ using CashMachine.Domain.Abstractions;
 namespace CashMachine.Domain
 {
     /// <summary>
-    /// Dispenses mostly £20 notes
+    /// A cash dispenser that dispenses mostly £20 notes
     /// </summary>
     public class SecondaryCashDispenser : CashDispenser
     {
@@ -13,6 +13,11 @@ namespace CashMachine.Domain
         {
         }
 
+        /// <summary>
+        /// Dispenses money from the vault.
+        /// </summary>
+        /// <param name="amount">The amount that the dispenser should dispense</param>
+        /// <returns>A collection with as many £20 notes.</returns>
         public override IEnumerable<MoneyStack> Dispense(decimal amount)
         {
             int withdrawalAmount = (int)(amount * 100);
@@ -24,7 +29,7 @@ namespace CashMachine.Domain
 
             int seedDenomiation = 2000;
 
-            return CalulateDispenseMoneyStacks(seedDenomiation, withdrawalAmount);
+            return CountMoneyStacksToDispense(seedDenomiation, withdrawalAmount);
         }
     }
 }

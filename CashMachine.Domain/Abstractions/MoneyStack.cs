@@ -1,5 +1,8 @@
 namespace CashMachine.Domain.Abstractions
 {
+    /// <summary>
+    /// This represents a group of money of the same value. eg A stack of £20 notes
+    /// </summary>
     public abstract class MoneyStack
     {
         protected MoneyStack(string currencySymbol, string fractionalUnit)
@@ -24,12 +27,12 @@ namespace CashMachine.Domain.Abstractions
         public int BaseValue { get; set; }
 
         /// <summary>
-        /// The quantity of money items in the stack
+        /// The numbers single units of money in the stack
         /// </summary>
         public int Quantity { get; set; }
 
         /// <summary>
-        /// The total of all the currency items in this money stack
+        /// The total value of all the money in the stack expressed in terms of its fractional unit.
         /// </summary>
         public int Total
         {

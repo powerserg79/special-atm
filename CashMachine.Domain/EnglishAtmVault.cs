@@ -3,6 +3,9 @@ using CashMachine.Domain.Abstractions;
 
 namespace CashMachine.Domain
 {
+    /// <summary>
+    /// An ATM vault to be used in England
+    /// </summary>
     public class EnglishAtmVault : AtmVault
     {
         public override string CurrencyCode { get { return "GBP"; } }
