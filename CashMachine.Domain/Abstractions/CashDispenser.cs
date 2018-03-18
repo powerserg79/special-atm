@@ -11,53 +11,53 @@ namespace CashMachine.Domain.Abstractions
 {
     public abstract class CashDispenser
     {
-        public MoneyVault Vault;
+        public AtmVault Vault;
 
-        protected CashDispenser(MoneyVault vault)
+        protected CashDispenser(AtmVault vault)
         {
             Vault = vault;
         }
-        
+
         /// <summary>
         /// Calculates the the fewest notes and coins to be dispensed.
         /// </summary>
         /// <param name="highestDenominationInBaseUnit">The largest currency denomination value to include eg. 2000 ie £20</param>
-        /// <param name="amount">The pound value to be withdrawn eg. 120.50</param>
+        /// <param name="amountToDispense">The amount to dispense expressed in the currencies fractional unit.</param>
         /// <returns></returns>
-        public IList<IMoneyStack> CalulateDispenseMoneyStacks(int highestDenominationInBaseUnit, decimal amount)
+        public IEnumerable<MoneyStack> CalulateDispenseMoneyStacks(int highestDenominationInBaseUnit, int amountToDispense )
         {
-            List<IMoneyStack> cashCollection = new List<IMoneyStack>();
-            int withdrawalAmount = (int)(amount * 100);
-
-            if (withdrawalAmount < highestDenominationInBaseUnit)
-                highestDenominationInBaseUnit = withdrawalAmount;
+            var cashCollection = new List<MoneyStack>();
+            
+            if (amountToDispense < highestDenominationInBaseUnit)
+                highestDenominationInBaseUnit = amountToDispense;
 
             var moneyVault = Vault.MoneyStacks.Where(x => x.BaseValue <= highestDenominationInBaseUnit).ToList();
 
-            foreach (IMoneyStack money in moneyVault)
+            foreach (MoneyStack money in moneyVault)
             {
-                int quantity = withdrawalAmount / money.BaseValue;
-                int remainder = withdrawalAmount % money.BaseValue;
+                int quantity = amountToDispense / money.BaseValue;
 
+                quantity = money.Quantity > quantity ? quantity : money.Quantity;
+                
                 if (quantity == 0)
                     continue;
 
-                var cash = new MoneyStack();
-                cash.BaseValue = money.BaseValue;
-                cash.Quantity = quantity;
+                int remainder = amountToDispense % (money.BaseValue * quantity);
+
+
+                MoneyStack cash = Vault.Take(money, quantity);
                 cashCollection.Add(cash);
 
-                money.Quantity -= quantity;
-                withdrawalAmount -= cash.Total;
+                amountToDispense -= cash.Total;
 
-                if (remainder == 0)
+                if (remainder <= 0)
                     break;
             }
 
             return cashCollection;
         }
 
-        public abstract IList<IMoneyStack> Dispense(decimal amount);
+        public abstract IEnumerable<MoneyStack> Dispense(decimal amount);
 
     }
 }

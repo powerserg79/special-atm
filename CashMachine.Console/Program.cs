@@ -13,25 +13,24 @@ namespace CashMachine.Console
         {
             string line = null;
 
-            var atmMoneyStacks = new List<MoneyStack>();
+            var atmMoneyStacks = new List<EnglishMoneyStack>();
 
-            // 100 x of each pence denominations
-            atmMoneyStacks.Add(new MoneyStack() { BaseValue = 1, Quantity = 100 });
-            atmMoneyStacks.Add(new MoneyStack() { BaseValue = 2, Quantity = 100 });
-            atmMoneyStacks.Add(new MoneyStack() { BaseValue = 5, Quantity = 100 });
-            atmMoneyStacks.Add(new MoneyStack() { BaseValue = 10, Quantity = 100 });
-            atmMoneyStacks.Add(new MoneyStack() { BaseValue = 20, Quantity = 100 });
-            atmMoneyStacks.Add(new MoneyStack() { BaseValue = 50, Quantity = 100 });
+            // £
+            atmMoneyStacks.Add(new EnglishMoneyStack() { BaseValue = 100, Quantity = 100 });
+            atmMoneyStacks.Add(new EnglishMoneyStack() { BaseValue = 100, Quantity = 100 });
+            atmMoneyStacks.Add(new EnglishMoneyStack() { BaseValue = 500, Quantity = 50 });
+            atmMoneyStacks.Add(new EnglishMoneyStack() { BaseValue = 1000, Quantity = 50 });
+            atmMoneyStacks.Add(new EnglishMoneyStack() { BaseValue = 2000, Quantity = 50 });
+            atmMoneyStacks.Add(new EnglishMoneyStack() { BaseValue = 5000, Quantity = 50 });
+            // p
+            atmMoneyStacks.Add(new EnglishMoneyStack() { BaseValue = 1, Quantity = 100 });
+            atmMoneyStacks.Add(new EnglishMoneyStack() { BaseValue = 2, Quantity = 100 });
+            atmMoneyStacks.Add(new EnglishMoneyStack() { BaseValue = 5, Quantity = 100 });
+            atmMoneyStacks.Add(new EnglishMoneyStack() { BaseValue = 10, Quantity = 100 });
+            atmMoneyStacks.Add(new EnglishMoneyStack() { BaseValue = 20, Quantity = 100 });
+            atmMoneyStacks.Add(new EnglishMoneyStack() { BaseValue = 50, Quantity = 100 });
 
-            // £ denominations
-            atmMoneyStacks.Add(new MoneyStack() { BaseValue = 100, Quantity = 100 });
-            atmMoneyStacks.Add(new MoneyStack() { BaseValue = 100, Quantity = 100 });
-            atmMoneyStacks.Add(new MoneyStack() { BaseValue = 500, Quantity = 50 });
-            atmMoneyStacks.Add(new MoneyStack() { BaseValue = 1000, Quantity = 50 });
-            atmMoneyStacks.Add(new MoneyStack() { BaseValue = 2000, Quantity = 50 });
-            atmMoneyStacks.Add(new MoneyStack() { BaseValue = 5000, Quantity = 50 });
-
-            var moneyVault = new VaultA(atmMoneyStacks);
+            var moneyVault = new EnglishAtmVault(atmMoneyStacks);
 
 
             //var cashDispenser = new PrimaryCashDispenser(moneyVault);
@@ -45,19 +44,27 @@ namespace CashMachine.Console
             while ((line = System.Console.ReadLine()) != "exit")
             {
                 decimal withdrawalAmount = decimal.Parse(line);
-
-                var result = atmTerminal.Withdraw(withdrawalAmount);
-                
                 var moneyStackText = new StringBuilder();
 
-                foreach (var MoneyStack in result)
+                try
                 {
-                    decimal poundFormat = (decimal)MoneyStack.BaseValue / 100;
-                    bool isPound = MoneyStack.BaseValue % 100 == 0;
+                    var result = atmTerminal.Withdraw(withdrawalAmount);
+                    
+                    foreach (var MoneyStack in result)
+                    {
+                        decimal poundFormat = (decimal)MoneyStack.BaseValue / 100;
+                        bool isPound = MoneyStack.BaseValue % 100 == 0;
 
-                    moneyStackText.Append(isPound ? $"£{poundFormat}" : $"{MoneyStack.BaseValue}p");
-                    moneyStackText.Append($" x{MoneyStack.Quantity},");
+                        moneyStackText.Append(isPound ? $"{MoneyStack.CurrencySymbol}{poundFormat}" : $"{MoneyStack.BaseValue}{MoneyStack.FractionalUnit}");
+                        moneyStackText.Append($"x{MoneyStack.Quantity},");
+                    }
                 }
+                catch (Exception e)
+                {
+                    moneyStackText =  new StringBuilder();
+                    moneyStackText.Append(e.Message);
+                }
+           
 
                 System.Console.BackgroundColor = ConsoleColor.Blue;
                 System.Console.ForegroundColor = ConsoleColor.White;

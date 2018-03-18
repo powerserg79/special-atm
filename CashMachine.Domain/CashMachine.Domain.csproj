@@ -41,11 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstractions\MoneyVault.cs" />
-    <Compile Include="VaultA.cs" />
+    <Compile Include="EnglishAtmVault.cs" />
     <Compile Include="AtmTerminal.cs" />
     <Compile Include="Abstractions\CashDispenser.cs" />
-    <Compile Include="Abstractions\IMoneyStack.cs" />
-    <Compile Include="MoneyStack.cs" />
+    <Compile Include="Abstractions\MoneyStack.cs" />
+    <Compile Include="EnglishMoneyStack.cs" />
     <Compile Include="PrimaryCashDispenser.cs" />
     <Compile Include="SecondaryCashDispenser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

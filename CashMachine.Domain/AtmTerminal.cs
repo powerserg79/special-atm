@@ -29,7 +29,7 @@ namespace CashMachine.Domain
         /// </summary>
         /// <param name="amount">The amount to withdraw in pounds</param>
         /// <returns>Collection of money grouped by denomination</returns>
-        public IList<IMoneyStack> Withdraw(decimal amount)
+        public IEnumerable<MoneyStack> Withdraw(decimal amount)
         {
             return cashDispenser.Dispense(amount);
         }

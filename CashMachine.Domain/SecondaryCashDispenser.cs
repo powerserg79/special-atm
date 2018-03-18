@@ -9,20 +9,22 @@ namespace CashMachine.Domain
     /// </summary>
     public class SecondaryCashDispenser : CashDispenser
     {
-        public SecondaryCashDispenser(MoneyVault vault) : base(vault)
+        public SecondaryCashDispenser(AtmVault vault) : base(vault)
         {
         }
 
-        public override IList<IMoneyStack> Dispense(decimal amount)
+        public override IEnumerable<MoneyStack> Dispense(decimal amount)
         {
-            if (Vault.Balance < amount)
+            int withdrawalAmount = (int)(amount * 100);
+
+            if (Vault.Balance < withdrawalAmount)
             {
                 throw new Exception("Insufficient funds to perform the transaction.");
             }
 
             int seedDenomiation = 2000;
 
-            return CalulateDispenseMoneyStacks(seedDenomiation, amount);
+            return CalulateDispenseMoneyStacks(seedDenomiation, withdrawalAmount);
         }
     }
 }
